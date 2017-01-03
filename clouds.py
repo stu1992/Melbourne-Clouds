@@ -11,28 +11,10 @@ from PIL import ImageDraw
 import datetime
 from fractions import Fraction
 import photo_sensor
-#import export
-from daemon import runner
 
-#log = logging.getLogger()
-
-#logging.basicConfig(level=logging.INFO, 
-                   # filename='log', # log to this file
-                   # format='%(asctime)s %(message)s') # include timestamp
-                    
-#log.setLevel(logging.DEBUG)
-
-
-
-#video_handeler = export.export()
 class clouds(object):
     def __init__(self):
-        self.stdin_path = '/dev/null'
-        self.stdout_path = '/dev/tty0'
-        self.stderr_path = '/dev/tty0'
-        self.pidfile_path =  '/var/lib/clouds/clouds.pid'
-        self.pidfile_timeout = 5
-        
+        pass
 
     def run(self):
         logger.info("clouds is starting up")
@@ -42,7 +24,7 @@ class clouds(object):
         night = 15 # we will make this the same eventually, still testing it
         buffer = day
         day_time = True
-        time_lapse_length = 1000
+        time_lapse_length = 3000
         minute = 60
         
         '''
@@ -58,7 +40,7 @@ class clouds(object):
             logger.error('failed to open timestamps file')
 
         while True:
-            #time.sleep(buffer)
+            time.sleep(15)
             timestamp = int(time.time())
             # if it is the night time, increase exposure time to maximum allowed by software and try and get start
             if day_time != True:
@@ -73,20 +55,20 @@ class clouds(object):
             if timestamp %minute <= 5: # update once every minute
                 #logger.info('updating')
 
-                for number in range(3):
+                for number in range(4):
                     os.system("cp /var/www/html/img/{}.png /var/www/html/img/{}.png".format(number+1,number))
                 os.system("rm /var/www/html/img/0.png")
                 im = Image.open('/var/lib/clouds/images/{}.png'.format(timestamp))
-                im.thumbnail((600,400), Image.ANTIALIAS)
-                im.save('/var/www/html/img/3.png', "PNG")
+                im.thumbnail((800,600), Image.ANTIALIAS)
+                im.save('/var/www/html/img/4.png', "PNG")
 
             light_value = self.light_sensor.get_value()
-            if light_value > 8500 and day_time == True: #gray_sum/count < day_threshold and camera.iso != 800 :
+            if light_value > 10000 and day_time == True: #gray_sum/count < day_threshold and camera.iso != 800 :
                 self.camera.set_preset('night')
                 logger.info('going dark')
                 buffer = night
                 day_time = False
-            elif light_value <= 8500 and day_time == False:
+            elif light_value <= 10000 and day_time == False:
                 self.camera.set_preset('day')
                 logger.info('good day')
                 buffer = day
@@ -99,11 +81,11 @@ class clouds(object):
 
             We conver the timestamp of the image to a datetime string and print it onto the bottom right corner of the image for the final time lapse
             '''
-            img = Image.open('/var/lib/clouds/images/{}.png'.format(timestamp))
-            draw = ImageDraw.Draw(img)
-            font = ImageFont.truetype('/var/lib/clouds/Aileron-Regular.otf', 30)
-            draw.text((1550, 1010),datetime.datetime.fromtimestamp(int(timestamp)).strftime('%Y/%m/%d %I:%M:%S %p'),(255,50,50),font=font)
-            img.save('/var/lib/clouds/images/{}.png'.format(timestamp))
+            #img = Image.open('/var/lib/clouds/images/{}.png'.format(timestamp))
+            #draw = ImageDraw.Draw(img)
+            #font = ImageFont.truetype('/var/lib/clouds/Aileron-Regular.otf', 30)
+            #draw.text((1550, 1010),datetime.datetime.fromtimestamp(int(timestamp)).strftime('%Y/%m/%d %I:%M:%S %p'),(255,50,50),font=font)
+            #img.save('/var/lib/clouds/images/{}.png'.format(timestamp))
 
 
             '''
@@ -184,4 +166,5 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler = logging.FileHandler("/var/lib/clouds/log")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+
 clouds.run()
