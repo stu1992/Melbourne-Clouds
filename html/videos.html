@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Melbourne Clouds</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<script type='text/javascript' language='javascript' src='http://astroviewer-sat2.appspot.com/orbit?var=orbit'></script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/starter-template.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Melbourne Clouds</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a></li>
+            <li class="active"><a href="#videos">Videos</a></li>
+            <li><a href="code.html">The Code</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+<div class="row" id="videos">
+<iframe width="100%" height="600px" src="https://www.youtube.com/embed/videoseries?list=PLzmdoUxgDDSxO_-YKV-HWWfmNrC8tP4a_" frameborder="0" allowfullscreen></iframe>
+<div id="fromspace" class="row"></div>
+
+<script>
+mylat = -37.85;
+mylong = 145.04;
+timestamp = orbit['tRef'];
+range = 30;
+for(var i = 0; i< orbit['orbitData'].length;i++){
+	if (timestamp <= orbit['orbitData'][i]['t']){
+		satlat = orbit['orbitData'][i]['lt'];
+		satlong = orbit['orbitData'][i]['ln'];
+		if(satlat >= mylat - range && satlat <= mylat + range && satlong >= mylong - range && satlong <= mylong + range){
+			document.getElementById("fromspace").innerHTML = '<iframe width="480" height="270" src="http://www.ustream.tv/embed/9408562?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>';
+			
+		}else{
+			for(var n = i+1; n < orbit['orbitData'].length;n++){
+				hyplat = orbit['orbitData'][n]['lt'];
+				hyplong = orbit['orbitData'][n]['ln'];
+				if (hyplat >= mylat - range && hyplat <= mylat + range && hyplong >= mylong - range && hyplong <= mylong + range){
+					time = orbit['orbitData'][n]['t'];
+					eta = Math.round((time - timestamp) /60);
+					document.getElementById("fromspace").innerHTML = '<p>ISS expected over melbourne in ' + eta + ' minutes</p>';
+					break;
+				}
+				document.getElementById("fromspace").innerHTML = '<p>ISS expected over melbourne in >90 minutes</p>';
+			}
+		}
+		break;
+	}
+	
+}
+</script>
+</div>
+      </div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
+
