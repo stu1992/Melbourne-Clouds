@@ -21,6 +21,5 @@
 #
 # m h  dom mon dow   command
 0,10,20,30,40,50 * * * * echo "images and files stored" >> /var/www/html/count
-0,5,10,15,20,25,30,35,40,45,50,55 * * * * ls -l /var/lib/clouds/images/ | wc -l > /var/www/html/count && ls -k /var/lib/clouds/videos/ >> /var/www/html/count && tail -n 50 /var/lib/clouds/log | sed ':a;N;$!ba;s/\n/<br\/>/g' >> /var/www/html/count -$
-#0,10,20,30,40,50 * * * * sed ':a;N;$!ba;s/\n/<br\/>/g' /var/www/html/count > /var/lib/clouds/count && cp /var/lib/clouds/count  /var/www/html/log
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * ls -l /var/lib/clouds/images/ | wc -l > /var/www/html/count && ls -k /var/lib/clouds/videos/ >> /var/www/html/count && tail -n 50 /var/lib/clouds/log | sed ':a;N;$!ba;s/\n/<br\/>/g' >> /var/www/html/count
 @reboot /var/lib/clouds/init_shit.sh
