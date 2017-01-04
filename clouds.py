@@ -50,7 +50,7 @@ class clouds(object):
             timestamps.write(str(timestamp)+'\n')
             #copy file to webroot
 
-            if timestamp %minute <= 5: # update once every minute
+            if timestamp %minute <= 15: # update once every minute
                 logger.debug('updating web images')
                 for number in range(4):
                     os.system("cp /var/www/html/img/{}.png /var/www/html/img/{}.png".format(number+1,number))
