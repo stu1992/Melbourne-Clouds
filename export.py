@@ -3,10 +3,7 @@ import os
 import logging
 import commands
 import datetime
-import subprocess
-import thread
 from time import sleep
-from daemon import runner
 
 from PIL import Image
 from PIL import ImageFont
@@ -15,11 +12,7 @@ from PIL import ImageDraw
 class export(object):
 
     def __init__(self):
-        self.stdin_path = '/dev/null'
-        self.stdout_path = '/dev/tty0'
-        self.stderr_path = '/dev/tty0'
-        self.pidfile_path =  '/var/lib/clouds/export.pid'
-        self.pidfile_timeout = 5
+        pass
            
     def run(self):
         while True:
@@ -47,10 +40,11 @@ class export(object):
                     os.system('rm /var/lib/clouds/stash/{}/*.avi'.format(jobs[0]))
             self.copy_video()
             logger.info('watchdog: sleeping')
-            sleep(1*60*60)
+            sleep(3*60*60)
         
     def picture_stamp(self, folder):
-        '''logger.info('timestamping images')
+        '''
+        logger.info('timestamping images')
         images = commands.getoutput('ls /var/lib/clouds/stash/{}/'.format(folder))
         imagelist = images.split()
         for image in imagelist:
@@ -74,7 +68,8 @@ class export(object):
         count = 1
         for image in imagelist:
             os.system('mv /var/lib/clouds/stash/{}/{}'.format(name,image) + ' /var/lib/clouds/stash/{}/{}.png'.format(name,count))
-            count += 1'''
+            count += 1
+            '''
 
     def video_encode(self, folder):
         logger.info('starting video encode')
@@ -83,7 +78,7 @@ class export(object):
         encode_success = False
         while encode_success == False:
             log_file = title +str(attempt)
-            encode = os.system('avconv -loglevel warning -y -i /var/lib/clouds/stash/{}/%d.png -c:v mpeg4 -r 25 -b:v 8000k /var/lib/clouds/stash/{}/{}.avi'.format(folder,folder,title,folder))
+            encode = os.system('avconv -loglevel warning -y -i /var/lib/clouds/stash/{}/%d.png -c:v mpeg4 -r 30 -preset slow -b:v 8M /var/lib/clouds/stash/{}/{}.avi'.format(folder,folder,title,folder))
             if encode == 0:
                 encode_success = True;
                 logger.info('encoding finished')
@@ -116,12 +111,12 @@ class export(object):
                 logger.info('error uploading, will try again')
                 sleep(3600)
         logger.info('upload finished successfully')
-        os.system('mv /var/lib/clouds/stash/{}/*.avi /home/pi/clouds/videos/'.format(folder))
-        os.system('scp /home/pi/clouds/stash/{}/*.avi kodi@kodi:~/clouds/'.format(folder))
+        os.system('mv /var/lib/clouds/stash/{}/*.avi /var/lib/clouds/videos/'.format(folder))
+        #os.system('scp /var/lib/clouds/stash/{}/*.avi kodi@kodi:~/clouds/'.format(folder))
         os.system('rm -rf /var/lib/clouds/stash/{}'.format(folder))
 
     def copy_video(self):
-        videos = commands.getoutput('ls /var/lib/clouds/videos'.format(folder))
+        videos = commands.getoutput('ls /var/lib/clouds/videos')
         videolist = videos.split()
         for video in videolist:
             logger.info('attempting to copy video to backup host')
@@ -138,7 +133,4 @@ handler = logging.FileHandler("/var/lib/clouds/log")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-daemon_runner = runner.DaemonRunner(export)
-#This ensures that the logger file handle does not get closed during daemonization
-daemon_runner.daemon_context.files_preserve=[handler.stream]
-daemon_runner.do_action()
+export.run()
