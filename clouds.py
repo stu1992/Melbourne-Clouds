@@ -21,24 +21,14 @@ class clouds(object):
         self.camera = camera.camera()
         self.light_sensor = photo_sensor.photo_sensor()
         day = 15
-        night = 15 # we will make this the same eventually, still testing it
+        night = 15-3 # 3 second exposure
         buffer = day
         day_time = True
         time_lapse_length = 3000
         minute = 60
-        
-        '''
-        TODO
-        we don't need any collection of timestamps, remove this
-        '''
-        try: #try to read last temp stamp
-            #open up timestamp file for graphing
-            timestamps = open('timestamps','a')
-        except:
-            logger.error('failed to open timestamps file')
 
         while True:
-            time.sleep(15)
+            time.sleep(buffer)
             timestamp = int(time.time())
             # if it is the night time, increase exposure time to maximum allowed by software and try and get start
             if day_time != True:
@@ -47,10 +37,11 @@ class clouds(object):
             elif day_time == True:     
                 self.camera.capture('/var/lib/clouds/images/{}.png'.format(timestamp))
                 logger.debug('day capture')
-            timestamps.write(str(timestamp)+'\n')
-            #copy file to webroot
 
-            if timestamp %minute <= 15: # update once every minute
+            '''
+            copy file to webroot, rename all files and delete oldest
+            '''
+            if timestamp %minute <= buffer: # update once every minute
                 logger.debug('updating web images')
                 for number in range(4):
                     os.system("cp /var/www/html/img/{}.png /var/www/html/img/{}.png".format(number+1,number))
