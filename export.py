@@ -85,9 +85,12 @@ class export(object):
             else:
                 logger.error('encoding failed - retrying')
                 attempt = attempt + 1
-                if attempt > 10:
-                    os.system('mv /var/lib/clouds/stash{} /var/lib/clouds/done_goofed/'.format(folder))
-                    logger.error('encode failed: rage quitting. Stu, handle this')
+                if attempt > 5:
+                    '''
+                    the stash size is large enough that I can't hold them and troubleshoot. I will just drop them
+                    '''
+                    os.system('rm /var/lib/clouds/stash{}'.format(folder))
+                    logger.error('encode failed: rage quitting and deleting files.')
         
         logger.info('finished video encode, deleting images')
         os.system('rm /var/lib/clouds/stash/{}/*.png'.format(folder))
@@ -124,7 +127,7 @@ class export(object):
                 logger.info('video copied over, deleting')
                 os.system('rm /var/lib/clouds/videos/{}'.format(video))
             else:
-                logger.info('copying failed. Host might not be up, will try again later')
+                logger.err('copying failed. Host might not be up, will try again later')
 export = export()
 logger = logging.getLogger("Export")
 logger.setLevel(logging.INFO)
