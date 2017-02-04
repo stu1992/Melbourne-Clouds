@@ -12,7 +12,6 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	<script type='text/javascript' language='javascript' src='http://astroviewer-sat2.appspot.com/orbit?var=orbit'></script>
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -43,48 +42,28 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="about.html">About</a></li>
-            <li class="active"><a href="#videos">Videos</a></li>
-            <li><a href="code.html">The Code</a></li>
+            <li><a href="videos.html">Videos</a></li>
+            <li class="active"><a href="#">The Code</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container-fluid">
-<div class="row" id="videos">
-<iframe width="100%" height="400px" src="https://www.youtube.com/embed/videoseries?list=PLzmdoUxgDDSxO_-YKV-HWWfmNrC8tP4a_" frameborder="0" allowfullscreen></iframe>
-<div id="fromspace" class="row"></div>
+<div class="row">
+	<div class="col-md-8">
+		
 
-<script>
-mylat = -37.85;
-mylong = 145.04;
-timestamp = orbit['tRef'];
-range = 30;
-for(var i = 0; i< orbit['orbitData'].length;i++){
-	if (timestamp <= orbit['orbitData'][i]['t']){
-		satlat = orbit['orbitData'][i]['lt'];
-		satlong = orbit['orbitData'][i]['ln'];
-		if(satlat >= mylat - range && satlat <= mylat + range && satlong >= mylong - range && satlong <= mylong + range){
-			document.getElementById("fromspace").innerHTML = '<iframe width="480" height="270" src="http://www.ustream.tv/embed/9408562?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>';
-			
-		}else{
-			for(var n = i+1; n < orbit['orbitData'].length;n++){
-				hyplat = orbit['orbitData'][n]['lt'];
-				hyplong = orbit['orbitData'][n]['ln'];
-				if (hyplat >= mylat - range && hyplat <= mylat + range && hyplong >= mylong - range && hyplong <= mylong + range){
-					time = orbit['orbitData'][n]['t'];
-					eta = Math.round((time - timestamp) /60);
-					document.getElementById("fromspace").innerHTML = '<p>ISS expected over melbourne in ' + eta + ' minutes</p>';
-					break;
-				}
-				document.getElementById("fromspace").innerHTML = '<p>ISS expected over melbourne in >90 minutes</p>';
-			}
-		}
-		break;
-	}
-	
-}
-</script>
+Melbourne Clouds uses a Raspberry Pi Camera to take pictures of the sky every 10 seconds and uploads the time lapses to youtube. The project consists of a Raspberry Pi 2 model B, a Raspberry Pi camera and a 3rd arm I had lying around.
+
+I have a python daemon that takes pictures and places them into an internal folder. After several thousand pictures have accumulated, another daemon exports the image sequence as an MP4 and uploads it to the Melbourne Clouds youtube page, and copies the video onto an external backup host. The pi can run completely unaided for close to a month without a network connection.
+
+There is a photo resistor and capacitor connected up to provide a real time daylight sensor value. From this, the camera switches between day time capturing and high exposure night time photography.
+
+The Raspberry Pi also hosts an apache server which serves pages for the MelbourneClouds.COM domain. The front end of the website is a 4 image slide show of the last 4 minutes of the sky. Every minute, the python script manually copies the latest image into the webroot directly. There is no dynamic web scripting.
+	</div>
+	</div>
+</div>
 </div>
       </div>
 
@@ -99,6 +78,9 @@ for(var i = 0; i< orbit['orbitData'].length;i++){
     <script src="js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+	<script>
+$('#code').load("count");
+	</script>
   </body>
 </html>
 
