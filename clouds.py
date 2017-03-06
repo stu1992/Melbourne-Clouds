@@ -24,7 +24,7 @@ class clouds(object):
         night = 15-3 # 3 second exposure
         buffer = day
         day_time = True
-        time_lapse_length = 3000
+        time_lapse_length = 4000
         minute = 60
 
         while True:
@@ -32,10 +32,12 @@ class clouds(object):
             timestamp = int(time.time())
             # if it is the night time, increase exposure time to maximum allowed by software and try and get start
             if day_time != True:
-                self.camera.capture('/var/lib/clouds/images/{}.png'.format(timestamp))
+                #self.camera.capture('/var/lib/clouds/images/{}.png'.format(timestamp))
+                self.camera.capture('/var/lib/clouds/images/{}.png'.format(timestamp),datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S %d/%m/%Y'))
                 logger.debug('night vision capture')
             elif day_time == True:     
-                self.camera.capture('/var/lib/clouds/images/{}.png'.format(timestamp))
+                self.camera.capture('/var/lib/clouds/images/{}.png'.format(timestamp),datetime.datetime.fromtimestamp(timestamp).strftime('%H:%M:%S %d/%m/%Y')
+)
                 logger.debug('day capture')
 
             '''
