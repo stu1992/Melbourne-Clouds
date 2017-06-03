@@ -1,64 +1,74 @@
-#slider_container_2 { float: center; margin: 0 0 0 -15px; padding: 15px; max-width: 100%; background: url(../img/bg.png) no-repeat 0 0; }
-#playlist{float:center;margin: 0 0 0 -15px; padding: 15px; max-width: 100%;}
-.SliderName_2 {
-	float: center;
-	max-width: 100%;
-	max-height: 600px;
-	overflow: hidden;
+.cssSlider {
+	    width: 100vw; 
+    height: 56.25vw; /* height:width ratio = 9/16 = .5625  */
+    max-height: 100vh;
+    max-width: 177.78vh; /* 16/9 = 1.778 */
+    margin: auto;
+    position: absolute;
+    left:0;right:0; /* horizontal center */
+}img{
+	width: 100%;
+height: 100%;
 }
-
-.SliderNamePrev_2 {
-	background: url(../img/left.png) no-repeat left center;
-	width: 50px;
-	height: 450px;
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	text-decoration: none;
+.cssSlide1,.cssSlide2,.cssSlide3,.cssSlide4 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
+.cssSlide1 {
+  background: url("../img/1.png")no-repeat center;
+      background-size: cover;
+    animation:fade 20s infinite;
+-webkit-animation:fade 20s infinite;
 
-.SliderNameNext_2 {
-	background: url(../img/right.png) no-repeat right center;
-	width: 50px;
-	height: 450px;
-	display: block;
-	position: absolute;
-	top: 0;
-	right: 0;
-	text-decoration: none;
+} 
+.cssSlide2 {
+  background: url("../img/2.png")no-repeat center;
+      background-size: cover;
+    animation:fade2 20s infinite;
+-webkit-animation:fade2 20s infinite;
 }
-
-.SliderName_2Description {
-	padding: 10px;
-	font-family: Tahoma,Arial,Helvetica;
-	font-size: 14px;
-	line-height: 30px;
-	letter-spacing: 1px;
-	text-align: center;
-	color: #ffffff;
-	text-shadow: 0 1px 3px #000000;
+.cssSlide3 {
+    background: url("../img/3.png")no-repeat center;
+      background-size: cover;
+    animation:fade3 20s infinite;
+-webkit-animation:fade3 20s infinite;
 }
-
-#SliderNameNavigation_2 { margin: 0; padding: 10px 0 0 0; height: 16px; text-align: center; overflow-y: hidden; }
-
-#SliderNameNavigation_2 a:link, #SliderNameNavigation_2 a:active, #SliderNameNavigation_2 a:visited, #SliderNameNavigation_2 a:hover{
-	margin: 0;
-	padding: 0;
-	font-size: 0;
-	line-height: 0;
-	text-decoration: none;
+.cssSlide4 {
+    background: url("../img/4.png")no-repeat center;
+      background-size: cover;
+    animation:fade4 20s infinite;
+-webkit-animation:fade4 20s infinite;
 }
-
-#SliderNameNavigation_2 a img
+@keyframes fade
 {
-	border: none;
-	width: 16px;
-	height: 16px;
-	background: url(../img/bullet.png) no-repeat center center;
+  0%   {opacity:1}
+  25% { opacity: 0}
+  50% { opacity: 0}
+  75% { opacity: 0}
+  100% { opacity: 1}
 }
-
-#SliderNameNavigation_2 a.active img
+@keyframes fade2
 {
-	background: url(../img/bullet_active.png) no-repeat center center;
+  0%   {opacity:0}
+  25% { opacity: 1}
+  50% { opacity: 0}
+  75% { opacity: 0}
+  100% { opacity: 0}
+}
+@keyframes fade3
+{
+  0%   {opacity:0}
+  25% { opacity: 0}
+  50% { opacity: 1}
+  75% { opacity: 0}
+  100% { opacity: 0}
+}
+@keyframes fade4
+{
+  0%   {opacity:0}
+  25% { opacity: 0}
+  50% { opacity: 0}
+  75% { opacity: 1}
+  100% { opacity: 0}
 }

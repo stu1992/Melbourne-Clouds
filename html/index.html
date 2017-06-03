@@ -13,8 +13,7 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-	<script type="text/javascript" src="js/sliderman.1.3.8.js"></script>
-	<script type='text/javascript' language='javascript' src='http://astroviewer-sat2.appspot.com/orbit?var=orbit'></script>
+	<!-- <script type="text/javascript" src="js/sliderman.1.3.8.js"></script> -->
 	<link rel="stylesheet" type="text/css" href="css/sliderman.css" />
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -51,99 +50,19 @@
           </ul>
         </div><!--/.nav-collapse -->
       </div>
-    </nav>
+    </nav
 
     <div class="container-fluid">
 <div class="row">
-			<div id="slider_container_2">
 
-				<div id="SliderName_2" class="SliderName_2">
-					<img src="img/1.png" alt="Demo2 first" title="Demo2 first" usemap="#img1map" />
-					<img src="img/2.png" alt="Demo2 second" title="Demo2 second" />
-					<img src="img/3.png" alt="Demo2 third" title="Demo2 third" />
-					<img src="img/4.png" alt="Demo2 fourth" title="Demo2 fourth" />
-				</div>
-
-				<div class="c"></div>
-				<div id="SliderNameNavigation_2"></div>
-				<div class="c"></div>
+<div class='cssSlider'>
+  <div class='cssSlide1'></div>
+  <div class='cssSlide2'></div>
+  <div class='cssSlide3'></div>
+  <div class='cssSlide4'></div>
 </div>
 </div>
 
-
-<script>
-mylat = -37.85;
-mylong = 145.04;
-timestamp = orbit['tRef'];
-range = 30;
-for(var i = 0; i< orbit['orbitData'].length;i++){
-	if (timestamp <= orbit['orbitData'][i]['t']){
-		satlat = orbit['orbitData'][i]['lt'];
-		satlong = orbit['orbitData'][i]['ln'];
-		if(satlat >= mylat - range && satlat <= mylat + range && satlong >= mylong - range && satlong <= mylong + range){
-			document.getElementById("fromspace").innerHTML = '<iframe width="480" height="270" src="http://www.ustream.tv/embed/9408562?html5ui" allowfullscreen webkitallowfullscreen scrolling="no" frameborder="0" style="border: 0 none transparent;"></iframe>';
-			
-		}else{
-			for(var n = i+1; n < orbit['orbitData'].length;n++){
-				hyplat = orbit['orbitData'][n]['lt'];
-				hyplong = orbit['orbitData'][n]['ln'];
-				if (hyplat >= mylat - range && hyplat <= mylat + range && hyplong >= mylong - range && hyplong <= mylong + range){
-					time = orbit['orbitData'][n]['t'];
-					eta = Math.round((time - timestamp) /60);
-					document.getElementById("fromspace").innerHTML = '<p>ISS expected over melbourne in ' + eta + ' minutes</p>';
-					break;
-				}
-				document.getElementById("fromspace").innerHTML = '<p>ISS expected over melbourne in >90 minutes</p>';
-			}
-		}
-		break;
-	}
-	
-}
-
-</script>
-<script>
-window.addEventListener('resize', setWindowSize);
-
-function setWindowSize() {
-  if (typeof (window.innerWidth) == 'number') {
-    myWidth = window.innerWidth;
-    myHeight = window.innerHeight;
-  } else {
-    if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
-      myWidth = document.documentElement.clientWidth;
-      myHeight = document.documentElement.clientHeight;
-    } else {
-      if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
-        myWidth = document.body.clientWidth;
-        myHeight = document.body.clientHeight;
-      }
-    }
-  }
-var demoSlider_2 = Sliderman.slider({container: 'SliderName_2', width: myWidth,  height: myWidth * 0.5625, effects: effectsDemo2,
-						display: {
-							autoplay: 3000,
-							loading: {background: '#000000', opacity: 0.5, image: 'img/loading.gif'},
-							//buttons: {hide: true, opacity: 1, prev: {className: 'SliderNamePrev_2', label: ''}, next: {className: 'SliderNameNext_2', label: ''}},
-							description: {hide: true, background: '#000000', opacity: 0.4, height: 50, position: 'bottom'},
-							navigation: {container: 'SliderNameNavigation_2', label: '<img src="img/clear.gif" />'}
-						}
-					});
-}
-</script>
-				<script type="text/javascript">
-					effectsDemo2 = 'fade';
-					var Width = window.innerWidth
-					var demoSlider_2 = Sliderman.slider({container: 'SliderName_2', width: Width,  height: Width * 0.5625, effects: effectsDemo2,
-						display: {
-							autoplay: 3000,
-							loading: {background: '#000000', opacity: 0.5, image: 'img/loading.gif'},
-							//buttons: {hide: true, opacity: 1, prev: {className: 'SliderNamePrev_2', label: ''}, next: {className: 'SliderNameNext_2', label: ''}},
-							description: {hide: true, background: '#000000', opacity: 0.4, height: 50, position: 'bottom'},
-							navigation: {container: 'SliderNameNavigation_2', label: '<img src="img/clear.gif" />'}
-						}
-					});
-				</script>
 </div>
       </div>
 
